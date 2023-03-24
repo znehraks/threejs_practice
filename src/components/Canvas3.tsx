@@ -4,6 +4,8 @@ import { Canvas } from '@react-three/fiber';
 import { useEffect, useState } from 'react';
 import * as THREE from 'three';
 
+import { cameraInitialPosition } from '../constants';
+
 import { CharacterControl } from './CharacterControl';
 import { ThreeSetting } from './ThreeSetting';
 import { Character } from './models/Character';
@@ -35,7 +37,7 @@ const Canvas3 = () => {
 			bottom: -1,
 			near: 0.1,
 			far: 1000,
-			position: [1, 5, 5],
+			position: cameraInitialPosition,
 			zoom: 100,
 		});
 	}, []);

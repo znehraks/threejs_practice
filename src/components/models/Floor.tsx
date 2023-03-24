@@ -1,10 +1,12 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable no-underscore-dangle */
+import { useThree } from '@react-three/fiber';
 import { useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { Euler } from 'three';
 
 export const Floor = () => {
+	const three = useThree();
 	const [floorTexture, setFloorTexture] = useState<THREE.Texture | undefined>();
 	useEffect(() => {
 		const textureLoader = new THREE.TextureLoader();
@@ -15,6 +17,7 @@ export const Floor = () => {
 		_floorTexture.repeat.y = 8;
 		setFloorTexture(_floorTexture);
 	}, []);
+	console.log('three', three);
 	if (!floorTexture) return null;
 	return (
 		<mesh rotation={new Euler(-Math.PI / 2)}>

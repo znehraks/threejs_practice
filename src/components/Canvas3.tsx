@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { ThreeSetting } from './ThreeSetting';
 import { Character } from './models/Character';
 import { Floor } from './models/Floor';
-import { House } from './models/House';
+import { House2 } from './models/House2';
 
 interface ICameraOption {
 	left: number;
@@ -22,6 +22,7 @@ interface ICameraOption {
 
 const Canvas3 = () => {
 	const [cameraOption, setCameraOption] = useState<ICameraOption | undefined>();
+
 	// Camera
 	useEffect(() => {
 		setCameraOption({
@@ -41,10 +42,10 @@ const Canvas3 = () => {
 		<Canvas orthographic camera={cameraOption}>
 			<ThreeSetting />
 			<OrbitControls />
-			{/* <TestMesh /> */}
 			<Floor />
-			<House position={{ x: 5, y: 10, z: 2 }} />
-			<Character position={{ x: 5, y: 4, z: 3 }} />
+			{/* <House position={{ x: 5, y: 0, z: 2 }} /> */}
+			<House2 position={{ x: 10, y: 0, z: 2 }} />
+			<Character position={{ x: 0, y: 0, z: 0 }} />
 		</Canvas>
 	);
 };

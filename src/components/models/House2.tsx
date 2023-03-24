@@ -12,31 +12,27 @@ interface IProps {
 }
 
 /* eslint-disable react/no-unknown-property */
-export const Character = ({ position }: IProps) => {
-	// const groupRef = useRef<THREE.Group>(null);
-	// const [yOffset, setYOffset] = useState<number | undefined>();
+export const House2 = ({ position }: IProps) => {
+	// const [houseMesh, setHouseMesh] = useState<Mesh | undefined>();
+	// const [yOffset, setYOffset] = useState<number | undefined>(undefined);
 	// useEffect(() => {
 	// 	const gltfLoader = new GLTFLoader();
 
-	// 	gltfLoader.load('/ilbuni.glb', (glb) => {
-	// 		const object3D = glb.scene.children[0];
-	// 		console.log('object3D', object3D);
-	// 		const mesh = object3D.children[0] as THREE.Mesh;
+	// 	gltfLoader.load('/house.glb', (glb) => {
+	// 		const mesh = glb.scene.children[0] as Mesh;
+	// 		console.log('mesh', mesh);
 	// 		if (mesh.geometry.boundingBox) {
+	// 			// * 초기 배치 시, 자신의 height의 절반만큼 땅에 박혀있는 것을 보정함
 	// 			setYOffset((mesh.geometry.boundingBox.max.y - mesh.geometry.boundingBox.min.y) / 2);
 	// 		}
-	// 		groupRef.current?.add(object3D);
+	// 		setHouseMesh(mesh);
 	// 	});
-	// }, []);
-	// if (!yOffset) return null;
-	// return <group name='character' position={[position.x, position.y + yOffset, position.z]} ref={groupRef} />;
-
-	const gltf = useLoader(GLTFLoader, '/ilbuni.glb');
+	// }, [position.y]);
+	// if (!houseMesh || !yOffset) return null;
+	const gltf = useLoader(GLTFLoader, '/house.glb');
 	useEffect(() => {
 		console.log(gltf);
-		const object3D = gltf.scene.children[0] as THREE.Object3D;
-
-		const mesh = object3D.children[0] as THREE.Mesh;
+		const mesh = gltf.scene.children[0] as THREE.Mesh;
 		const { boundingBox } = mesh.geometry;
 
 		if (boundingBox) {

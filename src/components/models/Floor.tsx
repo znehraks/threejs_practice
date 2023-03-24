@@ -1,27 +1,27 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable no-underscore-dangle */
-import { useThree } from '@react-three/fiber';
-import { useEffect, useState } from 'react';
+import { useLoader, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
-import { Euler } from 'three';
+import { Euler, TextureLoader } from 'three';
 
 export const Floor = () => {
 	const three = useThree();
-	const [floorTexture, setFloorTexture] = useState<THREE.Texture | undefined>();
-	useEffect(() => {
-		const textureLoader = new THREE.TextureLoader();
-		const _floorTexture = textureLoader.load('/images/grid.png');
-		_floorTexture.wrapS = THREE.RepeatWrapping;
-		_floorTexture.wrapT = THREE.RepeatWrapping;
-		_floorTexture.repeat.x = 8;
-		_floorTexture.repeat.y = 8;
-		setFloorTexture(_floorTexture);
-	}, []);
-	console.log('three', three);
-	if (!floorTexture) return null;
+	const floorTexture = useLoader(TextureLoader, '/images/grid.png');
+	floorTexture.wrapS = THREE.RepeatWrapping;
+	floorTexture.wrapT = THREE.RepeatWrapping;
+	floorTexture.repeat.x = 8;
+	floorTexture.repeat.y = 8;
+
+	console.log(three.scene);
 	return (
-		<mesh rotation={new Euler(-Math.PI / 2)}>
-			<planeGeometry args={[100, 100]} name='floor' />
+		<mesh
+			onPointerDown={(e) => {
+				console.log(e.clientX);
+				console.log(e.clientY);
+			}}
+			name='floor'
+			rotation={new Euler(-Math.PI / 2)}>
+			<planeGeometry args={[100, 100]} />
 			<meshStandardMaterial map={floorTexture} />
 		</mesh>
 	);

@@ -1,13 +1,14 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/no-unknown-property */
-import { OrbitControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { useEffect, useState } from 'react';
+import * as THREE from 'three';
 
+import { CharacterControl } from './CharacterControl';
 import { ThreeSetting } from './ThreeSetting';
 import { Character } from './models/Character';
 import { Floor } from './models/Floor';
-import { House2 } from './models/House2';
+import { House } from './models/House';
 
 interface ICameraOption {
 	left: number;
@@ -22,6 +23,8 @@ interface ICameraOption {
 
 const Canvas3 = () => {
 	const [cameraOption, setCameraOption] = useState<ICameraOption | undefined>();
+	const [characterState, setCharacterState] = useState<'stop' | 'moving'>('stop');
+	const [destinationPoint, setDestinationPoint] = useState<THREE.Vector3 | undefined>();
 
 	// Camera
 	useEffect(() => {
@@ -30,22 +33,26 @@ const Canvas3 = () => {
 			right: window.innerWidth / window.innerHeight,
 			top: 1,
 			bottom: -1,
-			near: -1000,
+			near: 0.1,
 			far: 1000,
 			position: [1, 5, 5],
-			zoom: 50,
+			zoom: 100,
 		});
 	}, []);
 	if (!cameraOption) return null;
-	console.log('cameraOption', cameraOption);
 	return (
-		<Canvas orthographic camera={cameraOption}>
+		<Canvas id='canvas' orthographic camera={cameraOption}>
+			<CharacterControl setCharacterState={setCharacterState} setDestinationPoint={setDestinationPoint} />
 			<ThreeSetting />
-			<OrbitControls />
 			<Floor />
-			{/* <House position={{ x: 5, y: 0, z: 2 }} /> */}
-			<House2 position={{ x: 10, y: 0, z: 2 }} />
-			<Character position={{ x: 0, y: 0, z: 0 }} />
+			<House position={{ x: 10, y: 0, z: 2 }} />
+			<Character
+				position={{ x: 0, y: 0, z: 0 }}
+				characterState={characterState}
+				destinationPoint={destinationPoint}
+				setCharacterState={setCharacterState}
+				setDestinationPoint={setDestinationPoint}
+			/>
 		</Canvas>
 	);
 };

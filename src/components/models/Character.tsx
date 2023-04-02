@@ -18,7 +18,6 @@ interface ICharacterProps {
 	characterState: 'stop' | 'moving';
 	setCharacterState: React.Dispatch<SetStateAction<'stop' | 'moving'>>;
 	setDestinationPoint: React.Dispatch<SetStateAction<THREE.Vector3 | undefined>>;
-	isPressed: boolean;
 }
 
 /* eslint-disable react/no-unknown-property */
@@ -28,7 +27,6 @@ export const Character = ({
 	characterState,
 	setCharacterState,
 	setDestinationPoint,
-	isPressed,
 }: ICharacterProps) => {
 	const three = useThree();
 	const { scene, animations } = useLoader(GLTFLoader, '/ilbuni.glb');
@@ -45,24 +43,6 @@ export const Character = ({
 	console.log('characterState', characterState);
 	useFrame((state, delta) => {
 		mixer.update(delta);
-		if (isPressed) {
-			console.log('눌려있음');
-			// const [firstIntersection] = three.raycaster.intersectObjects(three.scene.children);
-			// const { point } = firstIntersection;
-			// console.log('point', point);
-			// if (point) {
-			// 	const angle = Math.atan2(point.z - scene.position.z, point.x - scene.position.x);
-			// 	scene.position.x += Math.cos(angle) * 0.04;
-			// 	scene.position.z += Math.sin(angle) * 0.04;
-
-			// 	three.camera.position.x = cameraInitialPosition[0] + scene.position.x;
-			// 	three.camera.position.z = cameraInitialPosition[2] + scene.position.z;
-			// 	if (Math.abs(point.x - scene.position.x) < 0.1 && Math.abs(point.z - scene.position.z) < 0.1) {
-			// 		setCharacterState('stop');
-			// 		setDestinationPoint(undefined);
-			// 	}
-			// }
-		}
 		if (characterState === 'moving') {
 			console.log('이동중');
 			mixer.clipAction(animations[0]).stop();
@@ -82,7 +62,7 @@ export const Character = ({
 					setDestinationPoint(undefined);
 				}
 			}
-		} else if (characterState === 'stop' && !isPressed) {
+		} else if (characterState === 'stop') {
 			console.log('멈춤');
 			mixer.clipAction(animations[0]).play();
 			mixer.clipAction(animations[1]).stop();

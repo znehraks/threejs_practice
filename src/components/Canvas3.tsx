@@ -27,7 +27,6 @@ const Canvas3 = () => {
 	const [cameraOption, setCameraOption] = useState<ICameraOption | undefined>();
 	const [characterState, setCharacterState] = useState<'stop' | 'moving'>('stop');
 	const [destinationPoint, setDestinationPoint] = useState<THREE.Vector3 | undefined>();
-	const [isPressed, setIsPressed] = useState(false);
 
 	// Camera
 	useEffect(() => {
@@ -45,11 +44,7 @@ const Canvas3 = () => {
 	if (!cameraOption) return null;
 	return (
 		<Canvas id='canvas' orthographic camera={cameraOption}>
-			<CharacterControl
-				setCharacterState={setCharacterState}
-				setDestinationPoint={setDestinationPoint}
-				setIsPressed={setIsPressed}
-			/>
+			<CharacterControl setCharacterState={setCharacterState} setDestinationPoint={setDestinationPoint} />
 			<ThreeSetting />
 			<Floor />
 			<House position={{ x: 10, y: 0, z: 2 }} />
@@ -59,7 +54,6 @@ const Canvas3 = () => {
 				destinationPoint={destinationPoint}
 				setCharacterState={setCharacterState}
 				setDestinationPoint={setDestinationPoint}
-				isPressed={isPressed}
 			/>
 		</Canvas>
 	);

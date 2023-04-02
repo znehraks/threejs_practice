@@ -6,13 +6,12 @@ import { toThreePosition } from '../utils';
 interface ICharacterControlProps {
 	setCharacterState: React.Dispatch<SetStateAction<'stop' | 'moving'>>;
 	setDestinationPoint: React.Dispatch<SetStateAction<THREE.Vector3 | undefined>>;
-	setIsPressed: React.Dispatch<SetStateAction<boolean>>;
 }
 
 // TODO touch도 추가해야함
 // TODO isPressed 도 추가해서 눌린 상태에선 계속 이동하도록 해야함
 // TODO 게시판
-export const CharacterControl = ({ setCharacterState, setDestinationPoint, setIsPressed }: ICharacterControlProps) => {
+export const CharacterControl = ({ setCharacterState, setDestinationPoint }: ICharacterControlProps) => {
 	const three = useThree();
 
 	useEffect(() => {
@@ -34,15 +33,12 @@ export const CharacterControl = ({ setCharacterState, setDestinationPoint, setIs
 
 				characterGroup.lookAt(destinationPoint.clone());
 
-				setIsPressed(true);
 				setCharacterState('moving');
 				setDestinationPoint(destinationPoint.clone());
 			}
 		};
 
-		const handlePointerUp = () => {
-			setIsPressed(false);
-		};
+		const handlePointerUp = () => {};
 
 		three.gl.domElement.addEventListener('pointerdown', handlePointerDown);
 		three.gl.domElement.addEventListener('pointerup', handlePointerUp);
@@ -50,7 +46,7 @@ export const CharacterControl = ({ setCharacterState, setDestinationPoint, setIs
 			three.gl.domElement.removeEventListener('pointerdown', handlePointerDown);
 			three.gl.domElement.removeEventListener('pointerup', handlePointerUp);
 		};
-	}, [setCharacterState, setDestinationPoint, setIsPressed, three]);
+	}, [setCharacterState, setDestinationPoint, three]);
 
 	return null;
 };

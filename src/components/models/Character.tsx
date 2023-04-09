@@ -7,7 +7,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 import { cameraInitialPosition } from '@/src/constants';
-import { getYOffset } from '@/src/utils';
+import { getYOffset, toMinimapPosition } from '@/src/utils';
 
 interface ICharacterProps {
 	destinationPoint: THREE.Vector3 | undefined;
@@ -37,6 +37,7 @@ export const Character = ({
 		const object3D = characterMesh.children[0] as THREE.Object3D;
 
 		const mesh = object3D.children[0] as THREE.Mesh;
+		console.log('characterMesh', characterMesh);
 
 		const yOffset = getYOffset(mesh);
 		characterMesh.position.set(position.x, position.y + yOffset, position.z);
@@ -61,16 +62,9 @@ export const Character = ({
 				// * 미니맵에 현재 위치를 보여주는 로직
 				const minimapPositionDot = document.querySelector('.minimap-position-dot') as HTMLDivElement;
 				if (minimapPositionDot) {
-					minimapPositionDot.style.left = `${
-						characterMesh.position.x * 2 +
-						100 +
-						(characterMesh.position.x < -49 ? 5 : characterMesh.position.x > 49 ? -5 : 0)
-					}px`; // 50이면 200 -50이면 0
-					minimapPositionDot.style.top = `${
-						characterMesh.position.y * 1.2 +
-						60 +
-						(characterMesh.position.z < -49 ? 5 : characterMesh.position.z > 49 ? -5 : 0)
-					}px`; // 50이면 120, 0,이면 60, -50이면 0
+					const minimapPosition = toMinimapPosition(characterMesh.position);
+					minimapPositionDot.style.left = `${minimapPosition.x}px`; // 50이면 200 -50이면 0
+					minimapPositionDot.style.top = `${minimapPosition.y}px`; // 50이면 120, 0,이면 60, -50이면 0
 				}
 				if (
 					Math.abs(destinationPoint.x - characterMesh.position.x) < 0.1 &&

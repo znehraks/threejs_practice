@@ -4,13 +4,14 @@ import { Canvas } from '@react-three/fiber';
 import { useEffect, useState } from 'react';
 import * as THREE from 'three';
 
-import { cameraInitialPosition } from '../constants';
+import { cameraInitialPosition, housePositionInfo } from '../constants';
 
 import { CharacterControl } from './CharacterControl';
 import { ThreeSetting } from './ThreeSetting';
 import { Character } from './models/Character';
 import { Floor } from './models/Floor';
 import { House } from './models/House';
+import { Pointer } from './models/Pointer';
 
 interface ICameraOption {
 	left: number;
@@ -46,7 +47,7 @@ const Canvas3 = () => {
 			<CharacterControl setCharacterState={setCharacterState} setDestinationPoint={setDestinationPoint} />
 			<ThreeSetting />
 			<Floor />
-			<House position={{ x: 10, y: 0, z: 2 }} />
+			<House position={housePositionInfo.position} />
 			<Character
 				position={{ x: 0, y: 0, z: 0 }}
 				characterState={characterState}
@@ -54,6 +55,7 @@ const Canvas3 = () => {
 				setCharacterState={setCharacterState}
 				setDestinationPoint={setDestinationPoint}
 			/>
+			<Pointer />
 		</Canvas>
 	);
 };

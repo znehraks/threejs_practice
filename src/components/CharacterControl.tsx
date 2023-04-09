@@ -1,6 +1,8 @@
 import { useThree } from '@react-three/fiber';
 import React, { SetStateAction, useEffect } from 'react';
+import { useRecoilState } from 'recoil';
 
+import { minimapInfoAtom } from '../atom';
 import { toThreePosition } from '../utils';
 
 interface ICharacterControlProps {
@@ -13,22 +15,24 @@ interface ICharacterControlProps {
 // TODO 게시판
 export const CharacterControl = ({ setCharacterState, setDestinationPoint }: ICharacterControlProps) => {
 	const three = useThree();
+	const [, setMinimapInfo] = useRecoilState(minimapInfoAtom);
 
 	useEffect(() => {
 		if (!three) return () => {};
 		const handlePointerDown = (e: PointerEvent) => {
 			const { clientX, clientY } = e;
 			const threePosition = toThreePosition({ clientX, clientY });
-			console.log('threePosition', threePosition);
+			// console.log('threePosition', threePosition);
 			const characterGroup = three.scene.getObjectByName('character');
 
 			three.raycaster.setFromCamera(threePosition, three.camera);
 
 			const intersects = three.raycaster.intersectObjects(three.scene.children);
-			console.log('intersects', intersects);
+			// console.log('intersects', intersects);
 			const destinationPoint = intersects[0]?.point.clone();
 
 			if (destinationPoint && characterGroup) {
+				setMinimapInfo({ x: destinationPoint.x, y: destinationPoint.z });
 				// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
 
 				characterGroup.lookAt(destinationPoint.clone());
@@ -46,7 +50,7 @@ export const CharacterControl = ({ setCharacterState, setDestinationPoint }: ICh
 			three.gl.domElement.removeEventListener('pointerdown', handlePointerDown);
 			three.gl.domElement.removeEventListener('pointerup', handlePointerUp);
 		};
-	}, [setCharacterState, setDestinationPoint, three]);
+	}, [setCharacterState, setDestinationPoint, setMinimapInfo, three]);
 
 	return null;
 };

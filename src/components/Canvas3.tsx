@@ -22,7 +22,6 @@ interface ICameraOption {
 	position: [number, number, number];
 	zoom: number;
 }
-
 const Canvas3 = () => {
 	const [cameraOption, setCameraOption] = useState<ICameraOption | undefined>();
 	const [characterState, setCharacterState] = useState<'stop' | 'moving'>('stop');

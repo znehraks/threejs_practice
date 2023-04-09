@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 interface IToThreePosition {
 	clientX: number;
 	clientY: number;
@@ -16,4 +17,11 @@ export const getYOffset = (mesh: THREE.Mesh) => {
 		return (boundingBox.max.y - boundingBox.min.y) / 2;
 	}
 	return 0;
+};
+
+export const toMinimapPosition = (position: { x: number; y: number; z: number }) => {
+	return {
+		x: position.x * 2 + 100 + (position.x < -49 ? 5 : position.x > 49 ? -5 : 0),
+		y: position.z * 1.2 + 60 + (position.z < -49 ? 5 : position.z > 49 ? -5 : 0),
+	};
 };

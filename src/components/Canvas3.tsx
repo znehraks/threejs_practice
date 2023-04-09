@@ -4,13 +4,14 @@ import { Canvas } from '@react-three/fiber';
 import { useEffect, useState } from 'react';
 import * as THREE from 'three';
 
-import { cameraInitialPosition } from '../constants';
+import { cameraInitialPosition, housePositionInfo } from '../constants';
 
 import { CharacterControl } from './CharacterControl';
 import { ThreeSetting } from './ThreeSetting';
 import { Character } from './models/Character';
 import { Floor } from './models/Floor';
 import { House } from './models/House';
+import { Pointer } from './models/Pointer';
 
 interface ICameraOption {
 	left: number;
@@ -22,12 +23,10 @@ interface ICameraOption {
 	position: [number, number, number];
 	zoom: number;
 }
-
 const Canvas3 = () => {
 	const [cameraOption, setCameraOption] = useState<ICameraOption | undefined>();
 	const [characterState, setCharacterState] = useState<'stop' | 'moving'>('stop');
 	const [destinationPoint, setDestinationPoint] = useState<THREE.Vector3 | undefined>();
-	const [isPressed, setIsPressed] = useState(false);
 
 	// Camera
 	useEffect(() => {
@@ -45,22 +44,18 @@ const Canvas3 = () => {
 	if (!cameraOption) return null;
 	return (
 		<Canvas id='canvas' orthographic camera={cameraOption}>
-			<CharacterControl
-				setCharacterState={setCharacterState}
-				setDestinationPoint={setDestinationPoint}
-				setIsPressed={setIsPressed}
-			/>
+			<CharacterControl setCharacterState={setCharacterState} setDestinationPoint={setDestinationPoint} />
 			<ThreeSetting />
 			<Floor />
-			<House position={{ x: 10, y: 0, z: 2 }} />
+			<House position={housePositionInfo.position} />
 			<Character
 				position={{ x: 0, y: 0, z: 0 }}
 				characterState={characterState}
 				destinationPoint={destinationPoint}
 				setCharacterState={setCharacterState}
 				setDestinationPoint={setDestinationPoint}
-				isPressed={isPressed}
 			/>
+			<Pointer />
 		</Canvas>
 	);
 };

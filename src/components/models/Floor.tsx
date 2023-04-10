@@ -14,7 +14,7 @@ export const Floor = () => {
 
 	console.log(three.scene);
 	return (
-		<mesh name='floor' rotation={new Euler(-Math.PI / 2)}>
+		<mesh name='floor' rotation={new Euler(-Math.PI / 2)} receiveShadow castShadow>
 			<planeGeometry args={[100, 100]} />
 			<meshStandardMaterial map={floorTexture} />
 		</mesh>

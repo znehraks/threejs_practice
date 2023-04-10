@@ -1,6 +1,7 @@
 import { useThree } from '@react-three/fiber';
 import React, { SetStateAction, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
+import { Vector3 } from 'three';
 
 import { minimapInfoAtom } from '../atom';
 import { toThreePosition } from '../utils';
@@ -35,20 +36,16 @@ export const CharacterControl = ({ setCharacterState, setDestinationPoint }: ICh
 				setMinimapInfo({ x: destinationPoint.x, y: destinationPoint.z });
 				// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
 
-				characterGroup.lookAt(destinationPoint.clone());
+				characterGroup.lookAt(destinationPoint.x, 0.3, destinationPoint.z);
 
 				setCharacterState('moving');
-				setDestinationPoint(destinationPoint.clone());
+				setDestinationPoint(new Vector3(destinationPoint.x, 0.3, destinationPoint.z));
 			}
 		};
 
-		const handlePointerUp = () => {};
-
 		three.gl.domElement.addEventListener('pointerdown', handlePointerDown);
-		three.gl.domElement.addEventListener('pointerup', handlePointerUp);
 		return () => {
 			three.gl.domElement.removeEventListener('pointerdown', handlePointerDown);
-			three.gl.domElement.removeEventListener('pointerup', handlePointerUp);
 		};
 	}, [setCharacterState, setDestinationPoint, setMinimapInfo, three]);
 

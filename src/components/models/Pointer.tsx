@@ -29,7 +29,7 @@ export const Pointer = () => {
 		three.gl.domElement.addEventListener('pointerdown', handlePointerDown);
 	}, [three.camera, three.gl.domElement, three.raycaster, three.scene.children]);
 	return (
-		<mesh ref={pointerRef} name='pointer' rotation={new THREE.Euler(-Math.PI / 2)}>
+		<mesh ref={pointerRef} name='pointer' rotation={new THREE.Euler(-Math.PI / 2)} receiveShadow>
 			<meshBasicMaterial
 				transparent
 				opacity={0.7}

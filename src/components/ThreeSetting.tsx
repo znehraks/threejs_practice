@@ -14,7 +14,7 @@ export const ThreeSetting = () => {
 		const ambientLight = new THREE.AmbientLight('white', 0.7);
 		three.scene.add(ambientLight);
 
-		const directionalLight = new THREE.DirectionalLight('white', 0.5);
+		const directionalLight = new THREE.DirectionalLight('white', 0.1);
 		const directionalLightOriginPosition = new THREE.Vector3(1, 1, 1);
 		directionalLight.position.x = directionalLightOriginPosition.x;
 		directionalLight.position.y = directionalLightOriginPosition.y;
@@ -32,6 +32,7 @@ export const ThreeSetting = () => {
 		directionalLight.shadow.camera.near = -100;
 		directionalLight.shadow.camera.far = 100;
 		three.scene.add(directionalLight);
+		three.scene.add(new THREE.DirectionalLightHelper(directionalLight));
 	}, [three.gl, three.scene]);
 	return null;
 };

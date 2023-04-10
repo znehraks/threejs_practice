@@ -33,6 +33,10 @@ export const Character = ({
 }: ICharacterProps) => {
 	const three = useThree();
 	const { scene: characterMesh, animations } = useLoader(GLTFLoader, '/ilbuni.glb');
+	characterMesh.children.forEach((mesh) => {
+		mesh.castShadow = true;
+		mesh.receiveShadow = true;
+	});
 	const mixer = new THREE.AnimationMixer(characterMesh);
 	useEffect(() => {
 		// console.log(scene, animations);
@@ -43,6 +47,7 @@ export const Character = ({
 
 		const yOffset = getYOffset(mesh);
 		characterMesh.castShadow = true;
+		characterMesh.receiveShadow = true;
 		characterMesh.position.set(position.x, position.y + yOffset, position.z);
 	}, [animations, position.x, position.y, position.z, characterMesh, three.camera]);
 

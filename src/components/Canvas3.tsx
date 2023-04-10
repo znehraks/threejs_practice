@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/no-unknown-property */
+import { OrbitControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { useEffect, useState } from 'react';
 import * as THREE from 'three';
@@ -11,6 +12,7 @@ import { ThreeSetting } from './ThreeSetting';
 import { Character } from './models/Character';
 import { Floor } from './models/Floor';
 import { House } from './models/House';
+import { Maze } from './models/Maze';
 import { Pointer } from './models/Pointer';
 
 const Canvas3 = () => {
@@ -36,9 +38,10 @@ const Canvas3 = () => {
 	}, []);
 	if (!orthographicCamera) return null;
 	return (
-		<Canvas id='canvas' camera={orthographicCamera}>
+		<Canvas shadows='basic' id='canvas' camera={orthographicCamera}>
 			<CharacterControl setCharacterState={setCharacterState} setDestinationPoint={setDestinationPoint} />
 			<ThreeSetting />
+			<OrbitControls />
 			<Floor />
 			<House position={housePositionInfo.position} />
 			<Character
@@ -48,6 +51,7 @@ const Canvas3 = () => {
 				setCharacterState={setCharacterState}
 				setDestinationPoint={setDestinationPoint}
 			/>
+			<Maze />
 			<Pointer />
 		</Canvas>
 	);

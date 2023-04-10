@@ -20,6 +20,7 @@ export const House = ({ position }: IProps) => {
 	useEffect(() => {
 		const mesh = houseMesh.children[0] as THREE.Mesh;
 		houseMesh.castShadow = true;
+		houseMesh.receiveShadow = true;
 		const yOffset = getYOffset(mesh);
 		houseMesh.position.set(position.x, position.y + yOffset, position.z);
 

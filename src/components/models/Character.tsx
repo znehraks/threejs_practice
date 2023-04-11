@@ -59,15 +59,43 @@ export const Character = ({
 			mixer.clipAction(animations[0]).stop();
 			mixer.clipAction(animations[1]).play();
 			if (destinationPoint) {
+				console.log('destinationPoint', destinationPoint);
+				console.log('characterMesh.position', characterMesh.position);
 				const angle = Math.atan2(
 					destinationPoint.z - characterMesh.position.z,
 					destinationPoint.x - characterMesh.position.x
 				);
-				characterMesh.position.x += Math.cos(angle) * 0.04;
-				characterMesh.position.z += Math.sin(angle) * 0.04;
+				if (Math.abs(characterMesh.position.x) < 11.5 && Math.abs(characterMesh.position.z) < 11.5) {
+					characterMesh.position.x += Math.cos(angle) * 0.04;
+					characterMesh.position.z += Math.sin(angle) * 0.04;
 
-				camera.position.x = cameraInitialPosition[0] + characterMesh.position.x;
-				camera.position.z = cameraInitialPosition[2] + characterMesh.position.z;
+					camera.position.x = cameraInitialPosition[0] + characterMesh.position.x;
+					camera.position.z = cameraInitialPosition[2] + characterMesh.position.z;
+				} else {
+					if (characterMesh.position.x > 11.5) {
+						characterMesh.position.x = 11;
+						if (characterMesh.position.z > 11.5) {
+							characterMesh.position.z = 11;
+						} else if (characterMesh.position.z < -11.5) {
+							characterMesh.position.z = -11;
+						}
+					} else if (characterMesh.position.x < -11.5) {
+						characterMesh.position.x = -11;
+						if (characterMesh.position.z > 11.5) {
+							characterMesh.position.z = 11;
+						} else if (characterMesh.position.z < -11.5) {
+							characterMesh.position.z = -11;
+						}
+					} else if (characterMesh.position.z > 11.5) {
+						characterMesh.position.z = 11;
+					} else if (characterMesh.position.z < -11.5) {
+						characterMesh.position.z = -11;
+					}
+					camera.position.x = cameraInitialPosition[0] + characterMesh.position.x;
+					camera.position.z = cameraInitialPosition[2] + characterMesh.position.z;
+					setCharacterState('stop');
+					setDestinationPoint(undefined);
+				}
 
 				// * 미니맵에 현재 위치를 보여주는 로직
 				const minimapPositionDot = document.querySelector('.minimap-position-dot') as HTMLDivElement;

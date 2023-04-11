@@ -32,6 +32,9 @@ export const CharacterControl = ({ setCharacterState, setDestinationPoint }: ICh
 			// console.log('intersects', intersects);
 			const destinationPoint = intersects[0]?.point.clone();
 
+			const maze = three.scene.getObjectByName('maze');
+			console.log('maze', maze);
+
 			if (destinationPoint && characterGroup) {
 				setMinimapInfo({ x: destinationPoint.x, y: destinationPoint.z });
 				// eslint-disable-next-line @typescript-eslint/consistent-type-assertions

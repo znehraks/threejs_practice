@@ -13,7 +13,7 @@ export const Floor = () => {
 
 	return (
 		<mesh name='floor' rotation={new Euler(-Math.PI / 2)} receiveShadow castShadow>
-			<planeGeometry args={[100, 100]} />
+			<planeGeometry args={[25, 25]} />
 			<meshStandardMaterial map={floorTexture} />
 		</mesh>
 	);

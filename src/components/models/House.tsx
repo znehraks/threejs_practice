@@ -16,12 +16,15 @@ interface IProps {
 
 /* eslint-disable react/no-unknown-property */
 export const House = ({ position }: IProps) => {
-	const gltf = useLoader(GLTFLoader, '/house.glb');
+	const { scene: houseMesh } = useLoader(GLTFLoader, '/house.glb');
 	useEffect(() => {
-		console.log(gltf);
-		const mesh = gltf.scene.children[0] as THREE.Mesh;
+		const mesh = houseMesh.children[0] as THREE.Mesh;
+		houseMesh.castShadow = true;
+		houseMesh.receiveShadow = true;
 		const yOffset = getYOffset(mesh);
-		gltf.scene.position.set(position.x, position.y + yOffset, position.z);
-	}, [gltf, position.x, position.y, position.z]);
-	return <primitive name='house' object={gltf.scene} />;
+		houseMesh.position.set(position.x, position.y + yOffset, position.z);
+
+		houseMesh.visible = false;
+	}, [houseMesh, position.x, position.y, position.z]);
+	return <primitive name='house' object={houseMesh} />;
 };

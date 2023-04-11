@@ -53,7 +53,7 @@ export const MiniMap = () => {
 		<Wrapper>
 			<CurrentPositionDot className='minimap-position-dot' />
 			{modelPositions.map((modelPosition) => (
-				<MiniMapItems url='/images/floor.jpg' position={modelPosition.position} />
+				<MiniMapItems key={modelPosition.name} url='/images/floor.jpg' position={modelPosition.position} />
 			))}
 		</Wrapper>
 	);

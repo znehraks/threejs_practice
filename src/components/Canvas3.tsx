@@ -4,46 +4,40 @@ import { Canvas } from '@react-three/fiber';
 import { useEffect, useState } from 'react';
 import * as THREE from 'three';
 
-import { cameraInitialPosition, housePositionInfo } from '../constants';
+import { housePositionInfo } from '../constants';
 
 import { CharacterControl } from './CharacterControl';
 import { ThreeSetting } from './ThreeSetting';
 import { Character } from './models/Character';
 import { Floor } from './models/Floor';
 import { House } from './models/House';
+import { Maze } from './models/Maze';
 import { Pointer } from './models/Pointer';
 
-interface ICameraOption {
-	left: number;
-	right: number;
-	top: number;
-	bottom: number;
-	near: number;
-	far: number;
-	position: [number, number, number];
-	zoom: number;
-}
 const Canvas3 = () => {
-	const [cameraOption, setCameraOption] = useState<ICameraOption | undefined>();
 	const [characterState, setCharacterState] = useState<'stop' | 'moving'>('stop');
 	const [destinationPoint, setDestinationPoint] = useState<THREE.Vector3 | undefined>();
+	const [orthographicCamera, setOrthographicCamera] = useState<THREE.OrthographicCamera | undefined>(undefined);
 
 	// Camera
 	useEffect(() => {
-		setCameraOption({
-			left: -(window.innerWidth / window.innerHeight),
-			right: window.innerWidth / window.innerHeight,
-			top: 1,
-			bottom: -1,
-			near: 0.1,
-			far: 1000,
-			position: cameraInitialPosition,
-			zoom: 100,
-		});
+		const _orthographicCamera = new THREE.OrthographicCamera(
+			-(window.innerWidth / window.innerHeight), // left
+			window.innerWidth / window.innerHeight, // right,
+			1, // top
+			-1, // bottom
+			-1000,
+			1000
+		);
+		_orthographicCamera.position.set(1, 5, 5);
+		_orthographicCamera.lookAt(0, 0, 0);
+		_orthographicCamera.zoom = 100;
+		setOrthographicCamera(_orthographicCamera);
+		_orthographicCamera.updateProjectionMatrix();
 	}, []);
-	if (!cameraOption) return null;
+	if (!orthographicCamera) return null;
 	return (
-		<Canvas id='canvas' orthographic camera={cameraOption}>
+		<Canvas shadows='basic' id='canvas' camera={orthographicCamera}>
 			<CharacterControl setCharacterState={setCharacterState} setDestinationPoint={setDestinationPoint} />
 			<ThreeSetting />
 			<Floor />
@@ -55,6 +49,7 @@ const Canvas3 = () => {
 				setCharacterState={setCharacterState}
 				setDestinationPoint={setDestinationPoint}
 			/>
+			<Maze />
 			<Pointer />
 		</Canvas>
 	);

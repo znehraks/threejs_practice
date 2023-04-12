@@ -7,7 +7,7 @@ import * as THREE from 'three';
 import { housePositionInfo } from '../constants';
 
 import { CharacterControl } from './CharacterControl';
-import { ThreeSetting } from './ThreeSetting';
+import { Books } from './models/Books';
 import { Character } from './models/Character';
 import { Floor } from './models/Floor';
 import { House } from './models/House';
@@ -37,11 +37,25 @@ const Canvas3 = () => {
 	}, []);
 	if (!orthographicCamera) return null;
 	return (
-		<Canvas shadows='basic' id='canvas' camera={orthographicCamera}>
+		<Canvas
+			gl={{
+				antialias: true,
+				alpha: true,
+				// logarithmicDepthBuffer: true,
+			}}
+			shadows={{ enabled: true, type: THREE.PCFSoftShadowMap }}
+			id='canvas'
+			camera={orthographicCamera}>
 			<CharacterControl setCharacterState={setCharacterState} setDestinationPoint={setDestinationPoint} />
-			<ThreeSetting />
+			{/* <ThreeSetting /> */}
+			<directionalLight position={[2, 2, 2]} color={0xffffee} intensity={0.5} />
+			<ambientLight color={0xffffff} intensity={0.2} />
 			<Floor />
 			<House position={housePositionInfo.position} />
+			{/* //TODO 매번 새로운 모델링을 이렇게 추가하는 것이 아닌, 함수화하여 재활용하도록 리펙토링 필요함 */}
+			{/* <Paper position={{ x: 0, y: 0, z: 0 }} /> */}
+			<Books position={{ x: 0, y: 0, z: 0 }} />
+			{/* <Laptop position={{ x: 0, y: 0, z: 0 }} /> */}
 			<Character
 				position={{ x: 0, y: 0, z: 0 }}
 				characterState={characterState}

@@ -7,8 +7,6 @@ export const ThreeSetting = () => {
 	useEffect(() => {
 		three.gl.setSize(window.innerWidth, window.innerHeight);
 		three.gl.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
-		three.gl.shadowMap.enabled = true;
-		three.gl.shadowMap.type = THREE.PCFSoftShadowMap;
 
 		// Light
 		const ambientLight = new THREE.AmbientLight('white', 0.7);
@@ -32,7 +30,11 @@ export const ThreeSetting = () => {
 		directionalLight.shadow.camera.near = -100;
 		directionalLight.shadow.camera.far = 100;
 		three.scene.add(directionalLight);
-		three.scene.add(new THREE.DirectionalLightHelper(directionalLight));
-	}, [three.gl, three.scene]);
+
+		return () => {
+			three.scene.remove(directionalLight);
+			three.scene.remove(ambientLight);
+		};
+	}, [three.camera, three.gl, three.scene]);
 	return null;
 };

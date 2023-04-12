@@ -29,14 +29,8 @@ export const Pointer = () => {
 		three.gl.domElement.addEventListener('pointerdown', handlePointerDown);
 	}, [three.camera, three.gl.domElement, three.raycaster, three.scene.children]);
 	return (
-		<mesh ref={pointerRef} name='pointer' rotation={new THREE.Euler(-Math.PI / 2)} receiveShadow>
-			<meshBasicMaterial
-				transparent
-				opacity={0.7}
-				depthTest
-				side={THREE.DoubleSide}
-				color={new THREE.Color(0xf0ff0f)}
-			/>
+		<mesh ref={pointerRef} name='pointer' rotation={new THREE.Euler(-Math.PI / 2)} receiveShadow castShadow>
+			<meshBasicMaterial transparent opacity={0.7} side={THREE.DoubleSide} color={new THREE.Color(0xf0ff0f)} />
 			<planeGeometry args={[1, 1]} />
 		</mesh>
 	);

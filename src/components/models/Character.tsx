@@ -73,23 +73,23 @@ export const Character = ({
 					camera.position.z = cameraInitialPosition[2] + characterMesh.position.z;
 				} else {
 					if (characterMesh.position.x > 11.5) {
-						characterMesh.position.x = 11;
+						characterMesh.position.x = 10;
 						if (characterMesh.position.z > 11.5) {
-							characterMesh.position.z = 11;
+							characterMesh.position.z = 10;
 						} else if (characterMesh.position.z < -11.5) {
-							characterMesh.position.z = -11;
+							characterMesh.position.z = -10;
 						}
 					} else if (characterMesh.position.x < -11.5) {
-						characterMesh.position.x = -11;
+						characterMesh.position.x = -10;
 						if (characterMesh.position.z > 11.5) {
-							characterMesh.position.z = 11;
+							characterMesh.position.z = 10;
 						} else if (characterMesh.position.z < -11.5) {
-							characterMesh.position.z = -11;
+							characterMesh.position.z = -10;
 						}
 					} else if (characterMesh.position.z > 11.5) {
-						characterMesh.position.z = 11;
+						characterMesh.position.z = 10;
 					} else if (characterMesh.position.z < -11.5) {
-						characterMesh.position.z = -11;
+						characterMesh.position.z = -10;
 					}
 					camera.position.x = cameraInitialPosition[0] + characterMesh.position.x;
 					camera.position.z = cameraInitialPosition[2] + characterMesh.position.z;
